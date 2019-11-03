@@ -1,0 +1,41 @@
+{
+  "code": "nilabala",
+  "countryVote": "greece",
+  "party": {
+    "members": [
+      { "name": "Nila Bala", "status": "coming" },
+      { "name": "Mukund Ramkumar", "status": "maybe" },
+      { "name": "Baby Shankur", "status": "probablyNot" }
+    ],
+    "elaboration": "We want to come but we hate you soooo much!"
+  },
+  "conflicts": {
+    "conflictsArray": [
+      {
+        "partyMembers": ["Nila Bala"],
+        "description": "Wedding to go to",
+        "startsOnDate": ["07", "22", "2020"],
+        "endsOnDate": ["07", "25", "2020"]
+      },
+      {
+        "partyMembers": ["Nila Bala", "Mukund Ramkumar"],
+        "description": "Sex for baby #2",
+        "startsOnDate": ["08", "01", "2020"],
+        "endsOnDate": ["08", "31", "2020"]
+      }
+    ],
+    "conflictsOptOut": {
+      "partyMembers": ["Baby Shankur"],
+      "elaboration": "Shankur is really annoying and we might not want to take him.",
+      "knowByDate": ["11", "22", "2019"]
+    }
+  },
+  "questionnaire": {
+    "stayWith": "yes",
+    "needQuiet": "yes",
+    "wholeTime": "no",
+    "rentalCar": "no",
+    "changedLocation": "not coming",
+    "generalComment": "Yup, this about sums it all up!"
+  }
+}

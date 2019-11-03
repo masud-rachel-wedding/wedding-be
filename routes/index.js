@@ -1,55 +1,41 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const { Pool } = require('pg')
-require('dotenv').config()
+const { Pool } = require("pg");
+require("dotenv").config();
 
 const pool = new Pool({
   user: process.env.PGUSER,
   host: process.env.PGHOST,
-  database: 'marriagedb',
+  database: "marriagedb",
   password: process.env.PGPASSWORD,
-  port: 5432,
-})
+  port: 5432
+});
 
 /* See if person can login and see their specialised data */
-router.get('/login', async function(req, res, next) {
-  const dbRes = await pool.query('SELECT * FROM marriage.users')
-  console.log(dbRes.rows)
-  res.json(dbRes.rows)
-  pool.end()
-});
-
-/* Count and tally votes between Crete and Korcula*/
-router.post('/countVotes', async function(req, res, next) {
-
-  res.json({})
-});
-
-
-/*Update party members who are coming to the wedding*/
-router.post('/updateRSVP', async function(req, res, next) {
-  
-  res.json({})
-});
-
-
-/* Save schedule of person to respective row in database */
-router.post('/storeSchedule', async function(req, res, next) {
-  
-  res.json({})
-});
-
-/* Save perferences of party to respective row in database */
-router.post('/storePreferences', async function(req, res, next) {
-  res.json({})
+router.post("/login", async function(req, res, next) {
+  try {
+    const dbRes = await pool.query(
+      `SELECT party FROM wedding."Parties" WHERE code = '${req.body.code}'`
+    );
+    res.json({
+      result: true,
+      partyMembers: dbRes.rows[0].party
+    });
+  } catch {
+    res.json({
+      result: false
+    });
+  }
 });
 
 /* Save seriousness of party to respective row in database */
-router.post('/storeSeriousness', async function(req, res, next) {
-  res.json({})
+router.post("/submitRSVP", async function(req, res, next) {
+  console.log(JSON.stringify(req.body));
+  try {
+    res.json({result: true});
+  } catch {
+    res.json({result: false});
+  }
 });
-
-
-
 
 module.exports = router;
