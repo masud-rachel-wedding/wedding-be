@@ -17,17 +17,17 @@ router.post("/login", async function(req, res, next) {
     let dbRes = await pool.query(
       `SELECT code FROM wedding."RSVP" WHERE code = '${req.body.code}'`
     );
-    if (dbRes.rows[0].code) {
+    if (dbRes.rows.length && dbRes.rows[0]) {
       res.json({
         result: false,
-        msg: 'ALREADY_SUBMITTED'
+        message: 'ALREADY_SUBMITTED'
       });
     }
     else {
       let partydbRes = await pool.query(
         `SELECT party FROM wedding."Parties" WHERE code = '${req.body.code}'`
       );
-      if (partydbRes.rows[0].party){
+      if (partydbRes.rows.length && partydbRes.rows[0].party){
         res.json({
           result: true,
           partyMembers: partydbRes.rows[0].party
@@ -36,14 +36,15 @@ router.post("/login", async function(req, res, next) {
       else {
         res.json({
           result: false,
-          msg: "INVALID_CODE"
+          message: "INVALID_CODE"
         });
       }
     }
-  } catch {
+  } catch(error) {
     res.json({
       result: false,
-      msg: "INVALID_CODE"
+      message: "ERROR",
+      error: error
     });
   }
 });
