@@ -14,16 +14,36 @@ const pool = new Pool({
 /* See if person can login and see their specialised data */
 router.post("/login", async function(req, res, next) {
   try {
-    const dbRes = await pool.query(
-      `SELECT party FROM wedding."Parties" WHERE code = '${req.body.code}'`
+    let dbRes = await pool.query(
+      `SELECT code FROM wedding."RSVP" WHERE code = '${req.body.code}'`
     );
-    res.json({
-      result: true,
-      partyMembers: dbRes.rows[0].party
-    });
+    if (dbRes.rows[0].code) {
+      res.json({
+        result: false,
+        msg: 'ALREADY_SUBMITTED'
+      });
+    }
+    else {
+      let partydbRes = await pool.query(
+        `SELECT party FROM wedding."Parties" WHERE code = '${req.body.code}'`
+      );
+      if (partydbRes.rows[0].party){
+        res.json({
+          result: true,
+          partyMembers: partydbRes.rows[0].party
+        });
+      }
+      else {
+        res.json({
+          result: false,
+          msg: "INVALID_CODE"
+        });
+      }
+    }
   } catch {
     res.json({
-      result: false
+      result: false,
+      msg: "INVALID_CODE"
     });
   }
 });
