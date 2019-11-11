@@ -60,7 +60,7 @@ router.post("/submitRSVP", async function(req, res, next) {
     const yesList = [];
     const maybeList = [];
     const noList = [];
-    const sanElab = data.party.elaboration.replace(/'/g, "")
+    const sanElab = data.party.elaboration === null || data.party.elaboration === '' ? 'null' : data.party.elaboration.replace(/'/g, "");
     for (const member of data.party.members) {
       member.status === "coming" ? yesList.push(member.name) : "";
       member.status === "maybe" ? maybeList.push(member.name) : "";
