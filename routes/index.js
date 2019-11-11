@@ -120,6 +120,20 @@ router.post("/submitRSVP", async function(req, res, next) {
     res.write(JSON.stringify({ result: false }));
   }
 
+    /* ConflictsElab!!!*/
+    try {
+      const conflictsElab = data.conflicts.elaboration === null || data.conflicts.elaboration === '' ? 'null' : data.conflicts.elaboration.replace(/'/g, "");
+      await pool.query(
+        `INSERT INTO wedding."ConflictsElab"(
+          code, elaboration)
+          VALUES ('${data.code}', '${conflictsElab}');`
+      );
+      await pool.query("COMMIT");
+    } catch (error) {
+      console.log(error, "ConflictsElab");
+      res.write(JSON.stringify({ result: false }));
+    }
+
   /* Questionaire!!!*/
   try {
     const questionnaire = data.questionnaire;
